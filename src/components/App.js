@@ -4,7 +4,7 @@ import ListItem from './ListItem';
 const containerStyles = {
     width: '50%',
     margin: '100px auto',
-    border: '1px solid black',
+//     border: '1px solid black',
     borderRadius: '4px',
     padding: '10px',
     display: 'flex',
