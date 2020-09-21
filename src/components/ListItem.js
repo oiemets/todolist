@@ -15,12 +15,14 @@ const listItemStyles = {
 
 
 
-export default ({item, checkHandler, removeBtnHandler, ind}) => {
+export default ({item, checkHandler, removeBtnHandler, index}) => {
     return (
         <div style={listItemStyles}>
-            <input type="checkbox" id={ind} onChange={checkHandler} checked={item.checked}/>
-            <h2 style={(item.checked) ? {textDecoration: 'line-through'} : {}}>{item.content}</h2>
-            <button className="btn" id={ind} onClick={removeBtnHandler}>remove</button>
+            <input type="checkbox" 
+                onChange={(e) => checkHandler(index, e.target.checked)} 
+                checked={item.isChecked}/>
+            <h2 style={(item.isChecked) ? {textDecoration: 'line-through'} : {}}>{item.content}</h2>
+            <button className="btn"  onClick={() => removeBtnHandler(index)}>remove</button>
         </div>
     );
 }   

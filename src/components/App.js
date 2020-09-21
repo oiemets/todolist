@@ -1,10 +1,10 @@
 import React from 'react';
 import ListItem from './ListItem';
+import Header from './Header';
 
 const containerStyles = {
     width: '50%',
     margin: '100px auto',
-//     border: '1px solid black',
     borderRadius: '4px',
     padding: '10px',
     display: 'flex',
@@ -14,59 +14,41 @@ const containerStyles = {
     fontSize: '0.8em',
 };
 
-const mainInputStyles = {
-    width: '40%',
-    fontSize: '1.5em',
-    marginBottom: '20px',
-    border: '1px solid black',
-    borderRadius: '5px',
-    padding: '5px',
-}
 
 export default class extends React.Component{
     state = {
         list: []
     }
 
-    addItem = (e) => {
-        if(e.keyCode === 13) {
-            const state = this.state;
-            state.list.push({
-                checked: false,
-                content: e.target.value
-            });
-            this.setState({...state});
-            e.target.value = '';
-        }
+    addItem = (item) => {
+        this.setState(
+            {...this.state, list: [...this.state.list, {content: item, isChecked: false}]}
+            );
     }
 
-    checkHandler = (e) => {
-        const state = this.state;
-        if(state.list[e.target.id].checked) {
-            state.list[e.target.id].checked = false;
-        } else {
-            state.list[e.target.id].checked = true;
-        }
-        this.setState({...state})
+    checkHandler = (index, isChecked) => {
+        const listArray = [...this.state.list];
+        listArray[index] = {...this.state.list[index], isChecked};
+        this.setState({...this.state, list: [...listArray]});
     }
 
 
-    removeBtnHandler = (e) => {
-        const state = this.state;
-        state.list.splice(e.target.id, 1);
-        this.setState({...state});
+    removeBtnHandler = (ind) => {
+        const listArray = [...this.state.list];
+        listArray.splice(ind, 1);
+        this.setState({...this.state, list: [...listArray]});
     }
+
 
     render() {
         return (
             <div style={containerStyles}>
-                <h1>a list of things to do</h1>
-                <input type="text" onKeyUp={this.addItem} style={mainInputStyles}/>
-                {this.state.list.map((i, index) => {
+                <Header addItem={this.addItem}/>
+                {this.state.list.map((item, index) => {
                     return <ListItem 
                         key={index}
-                        item={i}
-                        ind={index}
+                        item={item}
+                        index={index}
                         checkHandler={this.checkHandler}
                         removeBtnHandler={this.removeBtnHandler}
                         />
